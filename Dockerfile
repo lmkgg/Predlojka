@@ -25,4 +25,4 @@ RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
 USER botuser
 
 # Запуск бота
-CMD ["python", "Predlojka.py"]
+CMD ["python", "bot.py"]
