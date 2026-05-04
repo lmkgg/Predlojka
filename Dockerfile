@@ -3,26 +3,19 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Установка системных зависимостей
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Копирование requirements.txt
+# Копирование файлов
 COPY requirements.txt .
-
-# Установка Python зависимостей
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копирование исходного кода
 COPY bot.py .
-COPY config.py .
 
-# Создание директорий для данных и логов
-RUN mkdir -p data logs
+# Создаем директорию для БД с правильными правами
+RUN mkdir -p /app/data && chmod 777 /app/data
 
-# Создание непривилегированного пользователя
-RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
-USER botuser
-
-# Запуск бота
-CMD ["python", "bot.py"]
+# Запуск с проверкой
+CMD ["sh", "-c", "echo 'Directory contents:' && ls -la /app/data && echo 'Starting bot...' && python bot.py"]
