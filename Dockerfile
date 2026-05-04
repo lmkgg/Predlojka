@@ -14,11 +14,15 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копирование исходного кода
-COPY . .
+COPY Predlojka.py .
+COPY config.py .
+
+# Создание директорий для данных и логов
+RUN mkdir -p data logs
 
 # Создание непривилегированного пользователя
 RUN useradd -m -u 1000 botuser && chown -R botuser:botuser /app
 USER botuser
 
 # Запуск бота
-CMD ["python", "bot.py"]
+CMD ["python", "Predlojka.py"]
