@@ -14,7 +14,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копирование исходного кода
-COPY Predlojka.py .
+COPY bot.py .
 COPY config.py .
 
 # Создание директорий для данных и логов
